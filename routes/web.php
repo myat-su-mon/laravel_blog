@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 
 /*
@@ -15,18 +16,8 @@ use App\Http\Controllers\HomeController;
 */
 // Route::get('/', [HomeController::class, 'testroot'])->name('root');
 
-Route::resource('posts', HomeController::class);
+// Route::resource('posts', HomeController::class)->middleware('auth');
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified'
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-});
+Route::get('logout', [AuthController::class, 'logout']);
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/posts', [HomeController::class, 'index'])->middleware(['auth:sanctum', 'verified']);

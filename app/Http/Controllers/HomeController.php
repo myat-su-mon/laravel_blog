@@ -10,6 +10,9 @@ use App\Http\Requests\StorePostRequest;
 
 class HomeController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth')->except('posts', 'create');
+    }
     /**
      * Display a listing of the resource.
      *
