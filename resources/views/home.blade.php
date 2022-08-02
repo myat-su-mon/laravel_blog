@@ -4,13 +4,13 @@
 <div class="container">
     <div class="row">
         <a href="/posts/create" class="btn btn-success">New Post</a>
-        <a href="logout" class="btn btn-danger">Logout</a>
+        <a href="/logout" class="btn btn-danger">Logout</a>
+        <h4>{{Auth::user()->name}}</h4>
     </div>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Contents') }}</div>
-
                 <div class="card-body">
                     {{-- @if (session('status'))
                         <div class="alert alert-success" role="alert">
