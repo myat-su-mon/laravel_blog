@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Mail\PostStored;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Requests\StorePostRequest;
 
@@ -20,7 +23,23 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // $posts = Post::all();
+        // $data1 = [];
+        // foreach($posts as $post){
+        //     $data1 = $post->name;
+        // }
+        // dd($data1);
+
+        // $posts = Post::pluck('name');
+        // $collection = collect([1, 2, 3])->map(function ($num) {
+        //     return $num > 2;
+        // });
         // $data = Post::all();
+        // dd(config('apservice.info.third'));
+
+        Mail::raw('Hello World', function($msg) {
+            $msg->to('sumon25399@gmail.com')->subject('AP index function');
+        });
         $data = Post::where('user_id', auth()->id())->orderBy('id')->get();
         // $data = Post::latest()->first();
 
@@ -47,12 +66,9 @@ class HomeController extends Controller
     public function store(StorePostRequest $request)
     {
         $validated = $request->validated();
-        // $post = new Post();
-        // $post->name = $request->name;
-        // $post->description = $request->description;
-        // $post->save();
-        Post::create($validated);
-        return redirect('/posts');
+        $post = Post::create($validated + ['user_id' => Auth::user()->id]);
+
+        return redirect('/posts')->with('status', config('apservice.message.created'));
     }
 
     /**

@@ -1,5 +1,8 @@
 <?php
 
+use App\Test;
+use App\Container;
+use App\TestFacade;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
@@ -15,6 +18,11 @@ use App\Http\Controllers\HomeController;
 |
 */
 // Route::get('/', [HomeController::class, 'testroot'])->name('root');
+
+// Route::get('/', function(){
+//     dd(TestFacade::execute());
+// });
+Route::resource('/', HomeController::class);
 
 Route::resource('posts', HomeController::class)->middleware('auth');
 
