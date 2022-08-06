@@ -18,10 +18,10 @@ class Post extends Model
         return $this->hasMany('App\Models\Category', 'category_id');
     }
 
-    protected static function booted()
-    {
-        static::created(function ($post) {
-            Mail::to("sumon@gmail.com")->send(new PostStored($post));
-        });
-    }
+    // protected static function booted()
+    // {
+    //     static::created(function ($post) {
+    //         Mail::to("sumon@gmail.com")->send(new PostStored($post));
+    //     });
+    // }
 }

@@ -22,7 +22,9 @@ use App\Http\Controllers\HomeController;
 // Route::get('/', function(){
 //     dd(TestFacade::execute());
 // });
-Route::resource('/', HomeController::class);
+Route::get('/', function(){
+    return view('livewire');
+});
 
 Route::resource('posts', HomeController::class)->middleware('auth');
 

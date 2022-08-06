@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use App\Mail\PostStored;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Events\PostCreatedEvent;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Requests\StorePostRequest;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\PostCreatedNotification;
 
 class HomeController extends Controller
 {
@@ -37,9 +41,14 @@ class HomeController extends Controller
         // $data = Post::all();
         // dd(config('apservice.info.third'));
 
-        Mail::raw('Hello World', function($msg) {
-            $msg->to('sumon25399@gmail.com')->subject('AP index function');
-        });
+        // $user = User::find(1);
+        // $user->notify(new PostCreatedNotification());
+        // Notification::send(User::find(1), new PostCreatedNotification());
+        // echo 'Noti sent'; exit();
+
+        // Mail::raw('Hello World', function($msg) {
+        //     $msg->to('sumon25399@gmail.com')->subject('AP index function');
+        // });
         $data = Post::where('user_id', auth()->id())->orderBy('id')->get();
         // $data = Post::latest()->first();
 
@@ -67,7 +76,7 @@ class HomeController extends Controller
     {
         $validated = $request->validated();
         $post = Post::create($validated + ['user_id' => Auth::user()->id]);
-
+        event(new PostCreatedEvent($post));
         return redirect('/posts')->with('status', config('apservice.message.created'));
     }
 

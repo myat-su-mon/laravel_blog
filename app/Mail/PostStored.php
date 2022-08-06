@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use storedMail;
 use App\Models\Post;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
